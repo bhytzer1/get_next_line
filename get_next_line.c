@@ -6,7 +6,7 @@
 /*   By: dmandric <dmandric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 21:38:29 by dmandric          #+#    #+#             */
-/*   Updated: 2026/01/19 21:39:29 by dmandric         ###   ########.fr       */
+/*   Updated: 2026/01/19 21:57:59 by dmandric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  ^Estrae la prima linea dal buffer statico
 */
-char	*extract_line(char *stat_buf)
+char	*ft_extract_line(char *stat_buf)
 {
 	char	*line;
 	int		i;
@@ -25,17 +25,12 @@ char	*extract_line(char *stat_buf)
 		return (NULL);
 	while (stat_buf[i] && stat_buf[i] != '\n')
 		i++;
-	if (stat_buf[i] == '\n')
-		i++;
-	line = malloc(sizeof(char) * (i + 1));
+	line = malloc(sizeof(char) * (i + (stat_buf[i] == '\n') + 1));
 	if (!line)
 		return (NULL);
-	i = 0;
-	while (stat_buf[i] && stat_buf[i] != '\n')
-	{
+	i = -1;
+	while (stat_buf[++i] && stat_buf[i] != '\n')
 		line[i] = stat_buf[i];
-		i++;
-	}
 	if (stat_buf[i] == '\n')
 		line[i++] = '\n';
 	line[i] = '\0';
@@ -45,7 +40,7 @@ char	*extract_line(char *stat_buf)
 /*
  ^Salva il resto del buffer dopo la linea estratta
 */
-char	*save_rest(char *stat_buf)
+char	*ft_save_rest(char *stat_buf)
 {
 	char	*rest;
 	int		i;
@@ -54,27 +49,23 @@ char	*save_rest(char *stat_buf)
 	i = 0;
 	while (stat_buf[i] && stat_buf[i] != '\n')
 		i++;
-	if (!stat_buf[i])
-	{
-		free(stat_buf);
-		return (NULL);
-	}
-	i++;
-	rest = malloc(sizeof(char) * (ft_strlen(stat_buf) - i + 1));
+	if (!stat_buf[i] || !stat_buf[i + 1])
+		return (free(stat_buf), NULL);
+	rest = malloc(sizeof(char) * (ft_strlen(stat_buf + i + 1) + 1));
 	if (!rest)
-		return (NULL);
-	j = 0;
-	while (stat_buf[i])
-		rest[j++] = stat_buf[i++];
+		return (free(stat_buf), NULL);
+	i++;
+	j = -1;
+	while (stat_buf[i + ++j])
+		rest[j] = stat_buf[i + j];
 	rest[j] = '\0';
-	free(stat_buf);
-	return (rest);
+	return (free(stat_buf), rest);
 }
 
 /*
- ^Legge dal file e accumula nel buffer statico
+ ^Legge dal file e accumula nel buffer statico (greve zi)
 */
-char	*read_file(int fd, char *stat_buf)
+char	*ft_read_file(int fd, char *stat_buf)
 {
 	char	*buffer;
 	int		bytes_read;
@@ -87,20 +78,17 @@ char	*read_file(int fd, char *stat_buf)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
-		{
-			free(buffer);
-			free(stat_buf);
-			return (NULL);
-		}
+			return (free(buffer), NULL);
 		buffer[bytes_read] = '\0';
 		stat_buf = ft_strjoin(stat_buf, buffer);
+		if (!stat_buf)
+			return (free(buffer), NULL);
 	}
-	free(buffer);
-	return (stat_buf);
+	return (free(buffer), stat_buf);
 }
 
 /*
- ^Funzione principale che legge una linea dal file descriptor
+ ^Funzione che legge una linea dal file descriptor (follia)
 */
 char	*get_next_line(int fd)
 {
@@ -109,10 +97,10 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	stat_buf = read_file(fd, stat_buf);
+	stat_buf = ft_read_file(fd, stat_buf);
 	if (!stat_buf)
 		return (NULL);
-	line = extract_line(stat_buf);
-	stat_buf = save_rest(stat_buf);
+	line = ft_extract_line(stat_buf);
+	stat_buf = ft_save_rest(stat_buf);
 	return (line);
 }

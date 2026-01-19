@@ -6,14 +6,14 @@
 #    By: dmandric <dmandric@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/19 19:26:19 by dmandric          #+#    #+#              #
-#    Updated: 2026/01/19 21:41:39 by dmandric         ###   ########.fr        #
+#    Updated: 2026/01/19 21:58:37 by dmandric         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = gnl_test
 
 SRCS = get_next_line.c get_next_line_utils.c main.c
-OBJS = $(SRCS:.c=.o)
+OBJS = $(SRCS: .c=.o)
 HEADER = get_next_line.h
 
 CC = cc
