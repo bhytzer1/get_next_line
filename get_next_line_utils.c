@@ -5,13 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmandric <dmandric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/19 21:41:04 by dmandric          #+#    #+#             */
-/*   Updated: 2026/01/19 21:48:06 by dmandric         ###   ########.fr       */
+/*   Created: 2026/01/19 22:21:59 by dmandric          #+#    #+#             */
+/*   Updated: 2026/01/19 22:27:23 by dmandric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
 
 char	*ft_strchr(char *str, char c)
 {
@@ -58,11 +57,11 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (s1)
 		while (s1[++i1])
 			c[i1] = s1[i1];
+	else
+		i1++;
 	i2 = -1;
 	while (s2[++i2])
 		c[i1 + i2] = s2[i2];
 	c[i1 + i2] = '\0';
-	if (s1)
-		free(s1);
-	return (c);
+	return (free(s1), c);
 }

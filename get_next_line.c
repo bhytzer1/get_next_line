@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmandric <dmandric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/19 21:38:29 by dmandric          #+#    #+#             */
-/*   Updated: 2026/01/19 21:57:59 by dmandric         ###   ########.fr       */
+/*   Created: 2026/01/19 22:22:21 by dmandric          #+#    #+#             */
+/*   Updated: 2026/01/19 22:35:21 by dmandric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,23 @@ char	*ft_save_rest(char *stat_buf)
 	while (stat_buf[i] && stat_buf[i] != '\n')
 		i++;
 	if (!stat_buf[i] || !stat_buf[i + 1])
-		return (free(stat_buf), NULL);
+	{
+		free(stat_buf);
+		return (NULL);
+	}
 	rest = malloc(sizeof(char) * (ft_strlen(stat_buf + i + 1) + 1));
 	if (!rest)
-		return (free(stat_buf), NULL);
+	{
+		free(stat_buf);
+		return (NULL);
+	}
 	i++;
 	j = -1;
 	while (stat_buf[i + ++j])
 		rest[j] = stat_buf[i + j];
 	rest[j] = '\0';
-	return (free(stat_buf), rest);
+	free(stat_buf);
+	return (rest);
 }
 
 /*
@@ -68,6 +75,7 @@ char	*ft_save_rest(char *stat_buf)
 char	*ft_read_file(int fd, char *stat_buf)
 {
 	char	*buffer;
+	char	*tmp;
 	int		bytes_read;
 
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
@@ -78,11 +86,12 @@ char	*ft_read_file(int fd, char *stat_buf)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
-			return (free(buffer), NULL);
+			return (free(buffer), free(stat_buf), NULL);
 		buffer[bytes_read] = '\0';
-		stat_buf = ft_strjoin(stat_buf, buffer);
-		if (!stat_buf)
-			return (free(buffer), NULL);
+		tmp = ft_strjoin(stat_buf, buffer);
+		if (!tmp)
+			return (free(buffer), free(stat_buf), NULL);
+		stat_buf = tmp;
 	}
 	return (free(buffer), stat_buf);
 }
