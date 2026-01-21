@@ -6,30 +6,35 @@
 /*   By: dmandric <dmandric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 22:21:59 by dmandric          #+#    #+#             */
-/*   Updated: 2026/01/19 22:27:23 by dmandric         ###   ########.fr       */
+/*   Updated: 2026/01/21 16:08:42 by dmandric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strchr(char *str, char c)
+/*
+^prende una stringa e un char e ritorna la posizione del char che gli diamo
+*/
+char 	ft_strch(char *str, char c)
 {
 	int	i;
 
 	i = 0;
 	if (!str)
-		return (NULL);
+		return (0);
 	while (str[i])
 	{
 		if (str[i] == c)
 			return (&str[i]);
 		i++;
 	}
-	if (c == '\0')
-		return (&str[i]);
-	return (NULL);
+	if (str[i] == '\0')
+		return(&str[i]);
+	return(0);
 }
-
+/*
+^non credo di dover spiegare questa...
+*/
 int	ft_strlen(char *str)
 {
 	int	i;
@@ -41,27 +46,32 @@ int	ft_strlen(char *str)
 		i++;
 	return (i);
 }
-
+/*
+^classico strjoin ma che che gestisce anche la memoria
+*/
 char	*ft_strjoin(char *s1, char *s2)
 {
-	size_t	i1;
-	size_t	i2;
+	size_t	i;
+	size_t	j;
 	char	*c;
 
-	i1 = ft_strlen(s1);
-	i2 = ft_strlen(s2);
-	c = malloc(sizeof(char) * (i1 + i2 + 1));
+	i = ft_strlen(s1);
+	j = ft_strlen(s2);
+	c = malloc(sizeof(char) * (i + j + 1));
 	if (!c)
 		return (NULL);
-	i1 = -1;
-	if (s1)
-		while (s1[++i1])
-			c[i1] = s1[i1];
+	i = -1;
+	if(s1)
+		while(s1[++i])
+			c[i] = s1[i];
 	else
-		i1++;
-	i2 = -1;
-	while (s2[++i2])
-		c[i1 + i2] = s2[i2];
-	c[i1 + i2] = '\0';
-	return (free(s1), c);
+		i = 0;
+	j = -1;
+	if(s2)
+		while (s2[++j])
+			c[i + j] = s2[j];
+	c[i + j] = '\0';
+	if (s1)
+		free(s1);
+	return (c);
 }
