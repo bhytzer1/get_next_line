@@ -6,7 +6,7 @@
 /*   By: dmandric <dmandric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 22:22:21 by dmandric          #+#    #+#             */
-/*   Updated: 2026/01/21 18:30:20 by dmandric         ###   ########.fr       */
+/*   Updated: 2026/01/22 17:20:15 by dmandric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,18 @@ char *ft_new_static(char *res_static)
 /*
  ^Funzione che legge una linea dal file descriptor (follia)
 */
+char *ft_get_next_line(int fd)
+{
+	static char *stash;
+	char *line;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	stash = ft_read_from_file(stash, fd);
+	if (!stash)
+		return (NULL);
+	line = ft_get_line(stash);
+	stash = ft_new_static(stash);
+	return (line);
+}
 
