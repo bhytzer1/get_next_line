@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmandric <dmandric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/19 22:22:21 by dmandric          #+#    #+#             */
-/*   Updated: 2026/01/22 18:27:58 by dmandric         ###   ########.fr       */
+/*   Created: 2026/01/24 18:43:05 by dmandric          #+#    #+#             */
+/*   Updated: 2026/01/24 18:52:22 by dmandric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 /*
  ^Estrae la prima linea dal buffer statico
@@ -55,7 +55,7 @@ char *ft_get_line(char *res_static)
 	i = 0;
 	while(res_static[i] != '\n' && res_static[i]) // ^se non dovesse essere finito skippiamo il carattere \n e scorriamo fino a che la stringa statica esiste
 		i++;
-	line = malloc(sizeof(char) * (i + 2)); // ^allochiamo due e non uno perche 
+	line = malloc(sizeof(char) * (i + 2)); // ^allochiamo due e non uno perche
 	if(!line)
 		return (NULL);
 	i = 0;
@@ -107,16 +107,15 @@ char *ft_new_static(char *res_static)
 */
 char *ft_get_next_line(int fd)
 {
-	static char *stash;
+	static char *stash[1024];
 	char *line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	stash = ft_read_from_file(stash, fd);
-	if (!stash)
+	stash[fd] = ft_read_from_file(stash[fd], fd);
+	if (!stash[fd])
 		return (NULL);
-	line = ft_get_line(stash);
-	stash = ft_new_static(stash);
+	line = ft_get_line(stash[fd]);
+	stash[fd] = ft_new_static(stash[fd]);
 	return (line);
 }
-

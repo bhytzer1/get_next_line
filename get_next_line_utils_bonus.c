@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmandric <dmandric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/19 22:21:59 by dmandric          #+#    #+#             */
-/*   Updated: 2026/01/22 17:49:33 by dmandric         ###   ########.fr       */
+/*   Created: 2026/01/24 18:43:41 by dmandric          #+#    #+#             */
+/*   Updated: 2026/01/24 18:52:10 by dmandric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 /*
 ^prende una stringa e un char e ritorna la posizione del char che gli diamo
