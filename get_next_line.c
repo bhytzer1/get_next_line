@@ -6,14 +6,14 @@
 /*   By: dmandric <dmandric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 22:22:21 by dmandric          #+#    #+#             */
-/*   Updated: 2026/01/22 18:27:58 by dmandric         ###   ########.fr       */
+/*   Updated: 2026/01/26 13:22:30 by dmandric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 /*
- ^Estrae la prima linea dal buffer statico
+ ^legge la prima linea del buffer statico
 */
 char	*ft_read_from_file(char *res_static, int fd)
 {
@@ -55,7 +55,7 @@ char *ft_get_line(char *res_static)
 	i = 0;
 	while(res_static[i] != '\n' && res_static[i]) // ^se non dovesse essere finito skippiamo il carattere \n e scorriamo fino a che la stringa statica esiste
 		i++;
-	line = malloc(sizeof(char) * (i + 2)); // ^allochiamo due e non uno perche 
+	line = malloc(sizeof(char) * (i + 2)); // ^allochiamo due e non uno perche
 	if(!line)
 		return (NULL);
 	i = 0;

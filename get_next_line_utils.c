@@ -6,7 +6,7 @@
 /*   By: dmandric <dmandric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 22:21:59 by dmandric          #+#    #+#             */
-/*   Updated: 2026/01/22 17:49:33 by dmandric         ###   ########.fr       */
+/*   Updated: 2026/01/26 13:21:23 by dmandric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char 	*ft_strchr(char *str, char c)
 			return (&str[i]);
 		i++;
 	}
+	if(str[i] == c)
+		return(&str[i]);
 	return(0);
 }
 /*
