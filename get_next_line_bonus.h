@@ -6,7 +6,7 @@
 /*   By: dmandric <dmandric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 18:44:10 by dmandric          #+#    #+#             */
-/*   Updated: 2026/01/24 18:53:36 by dmandric         ###   ########.fr       */
+/*   Updated: 2026/01/26 13:49:48 by dmandric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 
-char	*ft_get_next_line(int fd);
+char	*get_next_line(int fd);
 char	*ft_strchr(char *str, char c);
 int		ft_strlen(char *str);
 char	*ft_strjoin(char *s1, char *s2);

@@ -6,7 +6,7 @@
 /*   By: dmandric <dmandric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 18:43:05 by dmandric          #+#    #+#             */
-/*   Updated: 2026/01/24 18:52:22 by dmandric         ###   ########.fr       */
+/*   Updated: 2026/01/26 14:20:34 by dmandric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,48 +15,49 @@
 /*
  ^Estrae la prima linea dal buffer statico
 */
+
 char	*ft_read_from_file(char *res_static, int fd)
 {
-	int bytes_letti;
-	char *buffer;
-// ^allocchiamo al buffer la grandezza del buffer size tenendo conto che possa essere 0 o negativo e quinfi mettiamo delle condizioni apposta
+	int		bytes_letti;
+	char	*buffer;
+
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if(!buffer)
-		return(NULL);
-// ^diamo il valore di uno a bytesletti perche se fosse 0 non entrerebbe nel loop e subito dopo gli diamo il valore del read (mettendo sempre condizioni)
+	if (!buffer)
+		return (NULL);
 	bytes_letti = 1;
-	while(!ft_strchr(res_static, '\n') && bytes_letti != 0)
+	while (!ft_strchr(res_static, '\n') && bytes_letti != 0)
+	{
+		bytes_letti = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_letti == -1)
 		{
-			bytes_letti = read(fd, buffer, BUFFER_SIZE);
-			if(bytes_letti == -1)
-				{
-					free (buffer);
-					if (res_static)
-						free (res_static);
-					return (NULL);
-				}
-			buffer[bytes_letti] = '\0';
-			res_static = ft_strjoin(res_static, buffer);
+			free (buffer);
+			if (res_static)
+				free (res_static);
+			return (NULL);
 		}
-		free(buffer);
-		return(res_static);
+		buffer[bytes_letti] = '\0';
+		res_static = ft_strjoin(res_static, buffer);
+	}
+	free (buffer);
+	return (res_static);
 }
 
 /*
  ^Salva il resto del buffer dopo la linea estratta
 */
-char *ft_get_line(char *res_static)
-{
-	int i;
-	char *line;
 
-	if (!res_static || !res_static[0]) // ^se il fd dovesse essere finito si applicano queste condizioni
-		return(NULL);
+char	*ft_get_line(char *res_static)
+{
+	int		i;
+	char	*line;
+
+	if (!res_static || !res_static[0])
+		return (NULL);
 	i = 0;
-	while(res_static[i] != '\n' && res_static[i]) // ^se non dovesse essere finito skippiamo il carattere \n e scorriamo fino a che la stringa statica esiste
+	while (res_static[i] != '\n' && res_static[i])
 		i++;
-	line = malloc(sizeof(char) * (i + 2)); // ^allochiamo due e non uno perche
-	if(!line)
+	line = malloc(sizeof(char) * (i + 2));
+	if (!line)
 		return (NULL);
 	i = 0;
 	while (res_static[i] != '\n' && res_static[i])
@@ -76,18 +77,19 @@ char *ft_get_line(char *res_static)
 /*
  ^Legge dal file e accumula nel buffer statico (greve)
 */
-char *ft_new_static(char *res_static)
+
+char	*ft_new_static(char *res_static)
 {
-	int i;
-	int j;
-	char *line;
+	int		i;
+	int		j;
+	char	*line;
 
 	i = 0;
 	while (res_static[i] != '\n' && res_static[i])
 		i++;
 	if (!res_static[i])
 	{
-		free(res_static);
+		free (res_static);
 		return (NULL);
 	}
 	line = malloc(sizeof(char) * (ft_strlen(res_static) - i + 1));
@@ -95,20 +97,21 @@ char *ft_new_static(char *res_static)
 		return (NULL);
 	i++;
 	j = 0;
-	while(res_static[i])
+	while (res_static[i])
 		line[j++] = res_static[i++];
 	line[j] = '\0';
-	free(res_static);
-	return(line);
+	free (res_static);
+	return (line);
 }
 
 /*
  ^Funzione che legge una linea dal file descriptor (follia)
 */
-char *ft_get_next_line(int fd)
+
+char	*get_next_line(int fd)
 {
-	static char *stash[1024];
-	char *line;
+	static char	*stash[1024];
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
